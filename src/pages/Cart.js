@@ -1,29 +1,16 @@
+import { useCart } from "../context/CartContext";
 import { useTitle } from "../hooks/useTitle";
 import { CartCard } from "../components";
-
 export const Cart = () => {
+  const { cartList, total } = useCart();
   useTitle("Cart");
 
-  const products = [
-    {
-      id: 1,
-      name: "Organic Hand Soap",
-      price: 20,
-      image: require("../assets/products/Product1.jpg"),
-    },
-    {
-      id: 2,
-      name: "Organic Lash Serum",
-      price: 49,
-      image: require("../assets/products/Product2.jpg"),
-    },
-  ];
-
+  console.log(total);
   return (
     <main>
       <section className="cart">
-        <h1>Cart Items: {products.length}</h1>
-        {products.map((product) => (
+        <h1>Cart Items: {cartList.length} / ${total}</h1>
+        {cartList.map((product) => (
           <CartCard key={product.id} product={product} />
         ))}
       </section>
