@@ -1,13 +1,13 @@
-import { useCart } from "../context/CartContext";
 import "./CartCard.css";
+import { remove } from "../store/cartSlice";
+import { useDispatch } from "react-redux";
 
 export const CartCard = ({ product }) => {
-  const { removeFromCart } = useCart();
-
   const { name, price, image } = product;
+  const dispatch = useDispatch();
 
   function handleRemove() {
-    removeFromCart(product);
+    dispatch(remove(product));
   }
   return (
     <div className="cartCard">

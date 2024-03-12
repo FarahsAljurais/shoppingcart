@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { useCart } from "../context/CartContext";
+import { useDispatch, useSelector } from "react-redux";
+import { add, remove } from "../store/cartSlice";
 import "./ProductCard.css";
-
 export const ProductCard = ({ product }) => {
-  const { addToCart, removeFromCart, cartList } = useCart();
+  const dispatch = useDispatch();
+  const {cartList} = useSelector((state) => state.cartState);
+
   const { id, name, price, image } = product;
-  const [ isInCart, setIsInCart ] = useState(false);
+  const [isInCart, setIsInCart] = useState(false);
   useEffect(() => {
     const productIsInCart = cartList.find((cartItem) => cartItem.id === id);
     if (productIsInCart) {
@@ -15,10 +17,10 @@ export const ProductCard = ({ product }) => {
     }
   }, [cartList, id]);
   function handleAdd() {
-    addToCart(product);
+    dispatch(add(product));
   }
-  function handleRemove(){
-    removeFromCart(product);
+  function handleRemove() {
+    dispatch(remove(product));
   }
   return (
     <div className="productCard">
@@ -27,7 +29,9 @@ export const ProductCard = ({ product }) => {
       <div className="action">
         <p>${price}</p>
         {isInCart ? (
-          <button className="remove" onClick={handleRemove} >Remove From Cart</button>
+          <button className="remove" onClick={handleRemove}>
+            Remove From Cart
+          </button>
         ) : (
           <button onClick={handleAdd}>Add To Cart </button>
         )}
